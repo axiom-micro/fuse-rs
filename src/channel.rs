@@ -8,7 +8,7 @@ use std::os::unix::ffi::OsStrExt;
 use std::path::{PathBuf, Path};
 use fuse_sys::{fuse_args, fuse_mount_compat25};
 use libc::{self, c_int, c_void, size_t};
-use log::error;
+use log::warn;
 
 use crate::reply::ReplySender;
 
@@ -108,7 +108,7 @@ impl ChannelSender {
 impl ReplySender for ChannelSender {
     fn send(&self, data: &[&[u8]]) {
         if let Err(err) = ChannelSender::send(self, data) {
-            error!("Failed to send FUSE reply: {}", err);
+            warn!("Failed to send FUSE reply: {}", err);
         }
     }
 }

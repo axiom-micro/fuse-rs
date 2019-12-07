@@ -11,7 +11,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use libc::{EIO, ENOSYS, EPROTO};
 use fuse_abi::*;
 use fuse_abi::consts::*;
-use log::{debug, error, warn};
+use log::{debug, error, warn, trace};
 
 use crate::channel::ChannelSender;
 use crate::ll;
@@ -60,7 +60,7 @@ impl<'a> Request<'a> {
     /// This calls the appropriate filesystem operation method for the
     /// request and sends back the returned reply to the kernel
     pub fn dispatch<FS: Filesystem>(&self, se: &mut Session<FS>) {
-        debug!("{}", self.request);
+        trace!("{}", self.request);
 
         match self.request.operation() {
             // Filesystem initialization
